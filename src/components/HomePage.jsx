@@ -177,7 +177,7 @@ function HomePage() {
           </button>
           <button
             className="btn btn-outline-light mt-3 ms-2"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/LoginPage")}
           >
             Member Login
           </button>
