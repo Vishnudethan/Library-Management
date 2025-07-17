@@ -113,7 +113,7 @@ function HomePage() {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/LoginPage")}
                   style={{ cursor: "pointer" }}
                 >
                   Login
@@ -122,7 +122,7 @@ function HomePage() {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  onClick={() => navigate("/register")}
+                  onClick={() => navigate("/RegisterPage")}
                   style={{ cursor: "pointer" }}
                 >
                   Register
@@ -150,9 +150,7 @@ function HomePage() {
               textAlign: "center",
             }}
           >
-            {/* <h1 className="display-4 text-white fw-bold">
-           Welcome to the Library Management System
-            </h1> */}
+           
             <h1
   className="display-4 text-white fw-bold"
   style={{
@@ -173,7 +171,7 @@ function HomePage() {
             </p>
             <button
               className="btn btn-outline-light mt-3"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/RegisterPage")}
             >
               Get Started
             </button>
@@ -252,7 +250,7 @@ function HomePage() {
           </p>
           <button
             className="btn btn-outline-light mt-3"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/RegisterPage")}
           >
             Register Now
           </button>
