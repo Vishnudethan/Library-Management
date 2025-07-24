@@ -13,8 +13,8 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const [person, setPerson] = useState({
-    PersonEmail: "",
-    PersonPassword: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (event) => {
@@ -25,7 +25,7 @@ function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!person.PersonEmail || !person.PersonPassword) {
+    if (!person.email || !person.password) {
       setError("Both fields are required.");
       setTimeout(() => setError(""), 3000);
       return;
@@ -37,8 +37,8 @@ function LoginPage() {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
         {
-          email: person.PersonEmail,
-          password: person.PersonPassword,
+          email: person.email,
+          password: person.password,
         }
       );
 
@@ -107,10 +107,10 @@ function LoginPage() {
             <input
               type="email"
               id="email"
-              name="PersonEmail"
+              name="email"
               className="form-control"
               placeholder="you@example.com"
-              value={person.PersonEmail}
+              value={person.email}
               onChange={handleChange}
             />
           </div>
@@ -120,10 +120,10 @@ function LoginPage() {
             <input
               type="password"
               id="password"
-              name="PersonPassword"
+              name="password"
               className="form-control"
               placeholder="Your password"
-              value={person.PersonPassword}
+              value={person.password}
               onChange={handleChange}
             />
           </div>

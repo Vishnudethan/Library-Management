@@ -75,7 +75,7 @@ const Webpage = () => {
       ) : (
         <div style={{ padding: "30px", fontFamily: "Arial, sans-serif" }}>
           <h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "30px" }}>
-            Hi {person?.PersonName || "User"}, Welcome to the Online Library
+            Hi {person?.name || "User"}, Welcome to the Online Library
           </h2>
 
           <table style={tableStyle}>

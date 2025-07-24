@@ -4,7 +4,7 @@ import com.library.backend.model.User;
 import com.library.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-//For Spring Boot 3+
+
 import jakarta.validation.Valid;
 
 
@@ -27,4 +27,18 @@ public class UserController {
         }
         return userRepository.save(user);
     }
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User user) {
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser == null) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        if (!existingUser.getPassword().equals(user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        return existingUser;
+    }
+
 }

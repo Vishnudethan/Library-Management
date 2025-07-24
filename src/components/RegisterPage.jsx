@@ -9,9 +9,9 @@ function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [person, setPerson] = useState({
-    PersonName: "",
-    PersonEmail: "",
-    PersonPassword: "",
+    name: "",
+    email: "",
+    password: "",
   });
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -26,13 +26,13 @@ function RegisterPage() {
     event.preventDefault();
 
     // ✅ Client-side validation
-    if (!person.PersonName || !person.PersonEmail || !person.PersonPassword) {
+    if (!person.name || !person.email || !person.password) {
       setError("All fields are mandatory.");
       setTimeout(() => setError(""), 3000);
       return;
     }
 
-    if (person.PersonPassword.length < 3) {
+    if (person.password.length < 3) {
       setError("Password must be at least 3 characters.");
       setTimeout(() => setError(""), 3000);
       return;
@@ -43,9 +43,9 @@ function RegisterPage() {
       const response = await axios.post(
         "http://localhost:8080/api/auth/register", // Update if your backend is deployed elsewhere
         {
-          personName: person.PersonName,
-          email: person.PersonEmail,
-          password: person.PersonPassword,
+          name: person.name,
+          email: person.email,
+          password: person.password,
         }
       );
 
@@ -58,15 +58,19 @@ function RegisterPage() {
         setIsRegistered(true);
       }, 2000);
 
-    } catch (error) {
-      console.error(error);
-      if (error.response && error.response.status === 400) {
-        setError(error.response.data);
-      } else {
-        setError("Registration failed. Please try again or check for errors.");
-      }
-      setTimeout(() => setError(""), 2000);
-    }
+    }  catch (error) {
+  console.error(error);
+  if (error.response && error.response.status === 400) {
+    const backendError = error.response.data;
+    // If backend sends a plain string, fine.
+    // If backend sends JSON, fallback.
+    setError(typeof backendError === "string" ? backendError : backendError.message || "Registration failed.");
+  } else {
+    setError("Registration failed. Please try again or check for errors.");
+  }
+  setTimeout(() => setError(""), 3000);
+}
+
   };
 
   // ✅ Redirect to login if registration is done
@@ -123,12 +127,12 @@ function RegisterPage() {
             <input
               type="text"
               id="name"
-              name="PersonName"
+              name="name"
               className="form-control"
               placeholder="Your name"
-              value={person.PersonName}
+              value={person.name}
               onChange={handleChange}
-              required
+              
             />
           </div>
 
@@ -137,10 +141,10 @@ function RegisterPage() {
             <input
               type="email"
               id="email"
-              name="PersonEmail"
+              name="email"
               className="form-control"
               placeholder="you@example.com"
-              value={person.PersonEmail}
+              value={person.email}
               onChange={handleChange}
             />
           </div>
@@ -150,11 +154,11 @@ function RegisterPage() {
             <input
               type="password"
               id="password"
-              name="PersonPassword"
+              name="password"
               className="form-control"
               placeholder="Min 3 characters"
               minLength={3}
-              value={person.PersonPassword}
+              value={person.password}
               onChange={handleChange}
             />
           </div>
