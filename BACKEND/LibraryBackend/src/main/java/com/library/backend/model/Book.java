@@ -24,6 +24,7 @@ public class Book {
     private int rating;
 
     public Book() {}
+    public static final String SEQUENCE_NAME = "books_sequence";
 
     public Book(String title, String author, LocalDate publicationDate,
                 String isbn, String genre, int rating) {

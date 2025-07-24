@@ -1,5 +1,5 @@
 package com.library.backend.controller;
 
-public class Controller {
+public class UserController {
 
 }
