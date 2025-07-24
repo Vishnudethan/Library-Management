@@ -128,6 +128,7 @@ function RegisterPage() {
               placeholder="Your name"
               value={person.PersonName}
               onChange={handleChange}
+              required
             />
           </div>
 
