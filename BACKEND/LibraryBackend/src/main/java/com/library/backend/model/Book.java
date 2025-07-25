@@ -3,6 +3,13 @@ package com.library.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 @Document(collection = "books")
@@ -10,19 +17,30 @@ public class Book {
 
     @Id
     private String id;
-
+    
+    @NotBlank(message = "Title is required")
+    @Size(max = 100, message = "Title must be under 100 characters")
     private String title;
 
+    @NotBlank(message = "Author is required")
+    @Size(max = 50, message = "Author must be under 50 characters")
     private String author;
 
+    @NotNull(message = "Publication date is required")
     private LocalDate publicationDate;
 
+    @NotBlank(message = "ISBN is required")
     private String isbn;
 
+    @NotBlank(message = "Genre is required")
     private String genre;
 
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 5, message = "Rating must be at most 5")
     private int rating;
     
+    @NotBlank(message = "Owner email is required")
+    @Email(message = "Owner email must be valid")
     private String ownerEmail;
     
     
