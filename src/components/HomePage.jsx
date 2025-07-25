@@ -167,7 +167,7 @@ function HomePage() {
         <div className="container text-center">
           <h2 className="mb-3">Contact Us</h2>
           <p>
-            📍 Main Library Road, Trivandrum | ☎️ +91-9876543210 | 📧 support@libraryms.com
+            📍 Main Library Road, Trivandrum | ☎️ +91-9846706315 | 📧 support@libraryms.com
           </p>
           <button
             className="btn btn-outline-light mt-3"
