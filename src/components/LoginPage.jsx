@@ -56,7 +56,9 @@ function LoginPage() {
 
     } catch (error) {
       console.error(error);
-      if (error.response && error.response.status === 401) {
+      console.log("🪵 error.response:", error.response);
+
+      if (error.response && error.response.status === 400) {
         setError("Invalid email or password.");
       } else {
         setError("Login failed. Please try again.");

@@ -22,18 +22,23 @@ public class Book {
     private String genre;
 
     private int rating;
+    
+    private String ownerEmail;
+    
+    
 
     public Book() {}
     public static final String SEQUENCE_NAME = "books_sequence";
 
     public Book(String title, String author, LocalDate publicationDate,
-                String isbn, String genre, int rating) {
+                String isbn, String genre, int rating , String ownerEmail) {
         this.title = title;
         this.author = author;
         this.publicationDate = publicationDate;
         this.isbn = isbn;
         this.genre = genre;
         this.rating = rating;
+        this.ownerEmail=ownerEmail;
     }
 
     // Getters and setters
@@ -65,4 +70,12 @@ public class Book {
     public int getRating() { return rating; }
 
     public void setRating(int rating) { this.rating = rating; }
+
+	public String getOwnerEmail() {
+		return ownerEmail;
+	}
+
+	public void setOwnerEmail(String ownerEmail) {
+		this.ownerEmail = ownerEmail;
+	}
 }

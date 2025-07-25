@@ -9,6 +9,7 @@ const BookDetails = () => {
   const [book, setBook] = useState(null);
   const [googleBook, setGoogleBook] = useState(null);
   const [loading, setLoading] = useState(true);
+    const person = location.state?.person;
 
   useEffect(() => {
     if (location.state && location.state.book) {
@@ -84,7 +85,7 @@ const BookDetails = () => {
           borderRadius: "5px",
           cursor: "pointer",
         }}
-        onClick={() => navigate("/WebPage")}
+       onClick={() => navigate("/WebPage", { state: { person } })}
       >
         Back to Book List
       </button>

@@ -23,6 +23,11 @@ public class BookServiceImpl implements BookService {
         book.setId(sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         return bookRepository.save(book);
     }
+    
+    public List<Book> getBooksByOwner(String email) {
+        return bookRepository.findByOwnerEmail(email);
+    }
+
 
     @Override
     public List<Book> getAllBooks() {

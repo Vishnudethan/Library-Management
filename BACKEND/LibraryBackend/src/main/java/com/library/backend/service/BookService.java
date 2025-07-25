@@ -8,4 +8,7 @@ public interface BookService {
     List<Book> getAllBooks();
     Book getBookById(String id);
     void deleteBook(String id);
+     List<Book> getBooksByOwner(String email);
+    
+
 }

@@ -26,6 +26,12 @@ public class BookController {
     public Book addBook(@RequestBody Book book) {
         return bookService.addBook(book);
     }
+    
+    @GetMapping("/user/{email}")
+    public List<Book> getBooksByOwner(@PathVariable String email) {
+        return bookService.getBooksByOwner(email);
+    }
+
 
     @GetMapping
     public List<Book> getAllBooks() {
