@@ -281,14 +281,30 @@ const Webpage = () => {
   };
 
   // Delete
+ // const handleDelete = async (id) => {
+   // try {
+     // await axios.delete(`http://localhost:8080/books/${id}`);
+     // setBookList(bookList.filter((book) => book.id !== id));
+   // } catch (error) {
+    //  console.error("Error deleting book:", error);
+   // }
+  //};
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8080/books/${id}`);
-      setBookList(bookList.filter((book) => book.id !== id));
-    } catch (error) {
-      console.error("Error deleting book:", error);
+  try {
+    await axios.delete(`http://localhost:8080/books/${id}`);
+    const updatedList = bookList.filter((book) => book.id !== id);
+    setBookList(updatedList);
+
+    const totalPages = Math.ceil(updatedList.length / booksPerPage);
+
+    // 👇 Fix: If current page > total pages, go back to last valid page
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages > 0 ? totalPages : 1);
     }
-  };
+  } catch (error) {
+    console.error("Error deleting book:", error);
+  }
+};
 
   // Pagination
   const indexOfLast = currentPage * booksPerPage;
