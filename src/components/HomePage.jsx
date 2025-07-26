@@ -5,11 +5,11 @@ function HomePage() {
 
   return (
     <div>
-      {/* ✅ Navbar */}
+      {/*  Navigationbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div className="container-fluid">
           <a className="navbar-brand fw-bold" href="#">
-            LibraryMS
+            LibraryMS@V-Dethan
           </a>
           <button
             className="navbar-toggler"
@@ -54,7 +54,7 @@ function HomePage() {
         </div>
       </nav>
 
-      {/* ✅ Hero section */}
+      {/* Hero section */}
       <div className="position-relative" style={{ marginTop: "56px" }}>
         <img
           src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f"
@@ -72,14 +72,9 @@ function HomePage() {
             }}
           >
            
-            <h1
+              <h1
   className="display-4 text-white fw-bold"
   style={{
-    position: "fixed",
-    top: "70px", 
-    left: "50%",
-    transform: "translateX(-50%)",
-  
     backgroundColor: "rgba(209, 142, 142, 0.6)",
     padding: "1rem 2rem",
     borderRadius: "8px",
@@ -100,7 +95,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* ✅ About Section */}
+      {/*  About Section */}
       <section className="py-5 bg-light" id="about">
         <div className="container">
           <h2 className="text-center mb-4">About Us</h2>
@@ -115,7 +110,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ✅ Extra Carousel */}
+      {/*  Extra Carousel */}
       <div id="extraCarousel" className="carousel slide carousel-fade" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -162,12 +157,12 @@ function HomePage() {
         </button>
       </div>
 
-      {/* ✅ Contact Section */}
+      {/*  Contact Section */}
       <section className="bg-dark text-white py-5" id="contact">
         <div className="container text-center">
           <h2 className="mb-3">Contact Us</h2>
           <p>
-            📍 Main Library Road, Trivandrum | ☎️ +91-9846706315 | 📧 support@libraryms.com
+             ☎️ +91-9846706315 | 📧 support@libraryms.com
           </p>
           <button
             className="btn btn-outline-light mt-3"
@@ -185,7 +180,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ✅ Footer */}
+      {/*  Footer */}
       <footer className="bg-black text-white text-center py-3">
         <small>&copy; 2025 LibraryMS. All rights reserved.</small>
       </footer>

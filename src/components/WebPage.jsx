@@ -27,13 +27,22 @@ const WebPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8080/api/books/${id}`);
-      fetchBooks();
-    } catch (err) {
-      console.error("Error deleting book:", err);
+  try {
+    await axios.delete(`http://localhost:8080/api/books/${id}`);
+    const updatedBooks = books.filter((book) => book.id !== id);
+    setBooks(updatedBooks);
+
+    // Calculate new total pages
+    const updatedTotalPages = Math.ceil(updatedBooks.length / booksPerPage);
+
+    // If current page exceeds new total pages, shift back a page
+    if (currentPage > updatedTotalPages) {
+      setCurrentPage(updatedTotalPages);
     }
-  };
+  } catch (err) {
+    console.error("Error deleting book:", err);
+  }
+};
 
   const handleSort = (field) => {
     if (field === sortField) {
