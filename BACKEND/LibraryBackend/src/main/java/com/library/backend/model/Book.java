@@ -3,7 +3,6 @@ package com.library.backend.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +16,7 @@ public class Book {
 
     @Id
     private String id;
-    
+
     @NotBlank(message = "Title is required")
     @Size(max = 100, message = "Title must be under 100 characters")
     private String title;
@@ -38,25 +37,19 @@ public class Book {
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 5, message = "Rating must be at most 5")
     private int rating;
-    
-    @NotBlank(message = "Owner email is required")
-    @Email(message = "Owner email must be valid")
-    private String ownerEmail;
-    
-    
 
-    public Book() {}
     public static final String SEQUENCE_NAME = "books_sequence";
 
+    public Book() {}
+
     public Book(String title, String author, LocalDate publicationDate,
-                String isbn, String genre, int rating , String ownerEmail) {
+                String isbn, String genre, int rating) {
         this.title = title;
         this.author = author;
         this.publicationDate = publicationDate;
         this.isbn = isbn;
         this.genre = genre;
         this.rating = rating;
-        this.ownerEmail=ownerEmail;
     }
 
     // Getters and setters
@@ -88,12 +81,5 @@ public class Book {
     public int getRating() { return rating; }
 
     public void setRating(int rating) { this.rating = rating; }
-
-	public String getOwnerEmail() {
-		return ownerEmail;
-	}
-
-	public void setOwnerEmail(String ownerEmail) {
-		this.ownerEmail = ownerEmail;
-	}
 }
+

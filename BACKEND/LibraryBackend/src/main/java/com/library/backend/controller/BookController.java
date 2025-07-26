@@ -1,12 +1,8 @@
-
-
 package com.library.backend.controller;
 
 import com.library.backend.model.Book;
 import com.library.backend.service.BookService;
-
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,28 +11,21 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("api/books")
 @CrossOrigin("*")
 @Validated
 public class BookController {
 
     @Autowired
     private BookService bookService;
-    
+
     @Autowired
     private RestTemplate restTemplate;
-    
 
     @PostMapping
     public Book addBook(@RequestBody @Valid Book book) {
         return bookService.addBook(book);
     }
-    
-    @GetMapping("/user/{email}")
-    public List<Book> getBooksByOwner(@PathVariable String email) {
-        return bookService.getBooksByOwner(email);
-    }
-
 
     @GetMapping
     public List<Book> getAllBooks() {
@@ -52,26 +41,23 @@ public class BookController {
     public void deleteBook(@PathVariable String id) {
         bookService.deleteBook(id);
     }
-    //@GetMapping("/google/{isbn}")
-   // public String getBookDetailsFromGoogle(@PathVariable String isbn) {
-  //      String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn;
-       // return restTemplate.getForObject(url, String.class);
-   // }
-     @GetMapping("/google")
+
+    @GetMapping("/google")
     public String getBookDetailsFromGoogle(@RequestParam(required = false) String isbn,
-            @RequestParam(required = false) String title) {
-String query = "";
+                                           @RequestParam(required = false) String title) {
+        String query = "";
 
-if (isbn != null && !isbn.isBlank()) {
-query = "isbn:" + isbn;
-} else if (title != null && !title.isBlank()) {
-query = "intitle:" + title;
-} else {
-throw new IllegalArgumentException("Provide either ISBN or Title");
+        if (isbn != null && !isbn.isBlank()) {
+            query = "isbn:" + isbn;
+        } else if (title != null && !title.isBlank()) {
+            query = "intitle:" + title;
+        } else {
+            throw new IllegalArgumentException("Provide either ISBN or Title");
+        }
+
+        String url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
+        return restTemplate.getForObject(url, String.class);
+    }
 }
 
-String url = "https://www.googleapis.com/books/v1/volumes?q=" + query;
-return restTemplate.getForObject(url, String.class);
-}
 
-}

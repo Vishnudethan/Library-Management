@@ -1,7 +1,5 @@
 package com.library.backend.service;
 
-
-
 import com.library.backend.model.Book;
 import com.library.backend.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +21,6 @@ public class BookServiceImpl implements BookService {
         book.setId(sequenceGeneratorService.generateSequence(Book.SEQUENCE_NAME));
         return bookRepository.save(book);
     }
-    
-    public List<Book> getBooksByOwner(String email) {
-        return bookRepository.findByOwnerEmail(email);
-    }
-
 
     @Override
     public List<Book> getAllBooks() {
@@ -44,4 +37,7 @@ public class BookServiceImpl implements BookService {
     public void deleteBook(String id) {
         bookRepository.deleteById(id);
     }
+
+	
 }
+

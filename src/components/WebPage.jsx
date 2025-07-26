@@ -1,188 +1,144 @@
 
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 
-const Webpage = () => {
-  const location = useLocation();
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Table, Button, Pagination, Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+const WebPage = () => {
+  const [books, setBooks] = useState([]);
+  const [sortField, setSortField] = useState(""); // no sort initially
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 10;
   const navigate = useNavigate();
 
-  const [error, setError] = useState(false);
-  const [person, setPerson] = useState();
-  const [bookList, setBookList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortField, setSortField] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
-
-  const booksPerPage = 10;
-
-  useEffect(() => {
-    if (location.state && location.state.person) {
-      setPerson(location.state.person);
-
-      // ✅ Fetch books for this user from backend
-      axios
-        .get(`http://localhost:8080/books/user/${location.state.person.email}`)
-        .then((res) => setBookList(res.data))
-        .catch((err) => {
-          console.error(err);
-          setError(true);
-        });
-    } else {
-      setError(true);
+  const fetchBooks = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/books");
+      setBooks(res.data);
+    } catch (err) {
+      console.error("Error fetching books:", err);
     }
-  }, [location.state]);
-
-  // Sorting
-  const handleSort = (field) => {
-    const order = sortField === field && sortOrder === "asc" ? "desc" : "asc";
-    const sorted = [...bookList].sort((a, b) => {
-      if (a[field] < b[field]) return order === "asc" ? -1 : 1;
-      if (a[field] > b[field]) return order === "asc" ? 1 : -1;
-      return 0;
-    });
-    setBookList(sorted);
-    setSortField(field);
-    setSortOrder(order);
   };
 
-  
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
   const handleDelete = async (id) => {
-  try {
-    await axios.delete(`http://localhost:8080/books/${id}`);
-    const updatedList = bookList.filter((book) => book.id !== id);
-    setBookList(updatedList);
-
-    const totalPages = Math.ceil(updatedList.length / booksPerPage);
-
-    // 👇 Fix: If current page > total pages, go back to last valid page
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages > 0 ? totalPages : 1);
+    try {
+      await axios.delete(`http://localhost:8080/api/books/${id}`);
+      fetchBooks();
+    } catch (err) {
+      console.error("Error deleting book:", err);
     }
-  } catch (error) {
-    console.error("Error deleting book:", error);
-  }
-};
+  };
 
-  // Pagination
+  const handleSort = (field) => {
+    if (field === sortField) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const sortedBooks = [...books].sort((a, b) => {
+    if (!sortField) return 0; // No sorting by default
+    const fieldA = a[sortField]?.toString().toLowerCase() ?? "";
+    const fieldB = b[sortField]?.toString().toLowerCase() ?? "";
+    return sortOrder === "asc"
+      ? fieldA.localeCompare(fieldB)
+      : fieldB.localeCompare(fieldA);
+  });
+
   const indexOfLast = currentPage * booksPerPage;
   const indexOfFirst = indexOfLast - booksPerPage;
-  const currentBooks = bookList.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(bookList.length / booksPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const currentBooks = sortedBooks.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(books.length / booksPerPage);
 
   return (
-    <div>
-      {error ? (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-          <h1 style={{ color: "red", fontSize: "2rem" }}>Error!!!</h1>
-          <p style={{ fontSize: "1.2rem" }}>
-            You tried to enter the library without logging in.
-            Please go back and log in.
-          </p>
-          <button onClick={() => navigate("/")} style={buttonStyle}>
-            Go to Home
-          </button>
-        </div>
-      ) : (
-        <div style={{ padding: "30px", fontFamily: "Arial, sans-serif" }}>
-          <h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "30px" }}>
-            Hi {person?.name || "User"}, Welcome to the Online Library
-          </h2>
+    <Container fluid style={{ minHeight: "100vh", padding: "30px" }}>
+      <Row className="mb-3 justify-content-between">
+        <Col xs="auto">
+          <Button variant="secondary" onClick={() => navigate("/")}>
+            ← Home
+          </Button>
+        </Col>
+        <Col xs="auto">
+          <Button onClick={() => navigate("/AddBook")}>Add Book</Button>
+        </Col>
+      </Row>
 
-          <table style={tableStyle}>
-            <thead>
-              <tr style={{ backgroundColor: "#f4f4f4" }}>
-                <th style={headerStyle}>Sl.No</th>
-                <th style={headerStyle} onClick={() => handleSort("title")}>Title</th>
-                <th style={headerStyle} onClick={() => handleSort("author")}>Author</th>
-                <th style={headerStyle} onClick={() => handleSort("publicationDate")}>Publication Date</th>
-                <th style={headerStyle} onClick={() => handleSort("isbn")}>ISBN</th>
-                <th style={headerStyle} onClick={() => handleSort("genre")}>Genre</th>
-                <th style={headerStyle} onClick={() => handleSort("rating")}>Rating</th>
-                <th style={headerStyle}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentBooks.map((book, index) => (
-                <tr key={book.id || index} style={tableRowStyle}>
-                  <td style={tableCellStyle}>{indexOfFirst + index + 1}</td>
-                  <td
-                    style={{ ...tableCellStyle, cursor: "pointer", color: "#2980b9", textDecoration: "underline" }}
-                    onClick={() => navigate("/BookDetails", { state: { book,person } })}
-                  >
-                    {book.title}
-                  </td>
-                  <td style={tableCellStyle}>{book.author}</td>
-                  <td style={tableCellStyle}>{book.publicationDate}</td>
-                  <td style={tableCellStyle}>{book.isbn}</td>
-                  <td style={tableCellStyle}>{book.genre}</td>
-                  <td style={tableCellStyle}>{book.rating}</td>
-                  <td style={tableCellStyle}>
-                    <button
-                      style={deleteButtonStyle}
-                      onClick={() => handleDelete(book.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <h2 className="mb-4 text-center">Book List</h2>
 
-          {totalPages > 1 && (
-            <div style={{ marginTop: "20px", textAlign: "center" }}>
-              {[...Array(totalPages)].map((_, idx) => (
-                <button
-                  key={idx + 1}
-                  style={{
-                    margin: "0 5px",
-                    padding: "6px 12px",
-                    backgroundColor: currentPage === idx + 1 ? "#2980b9" : "#ddd",
-                    color: currentPage === idx + 1 ? "white" : "black",
-                    border: "none",
-                    borderRadius: "3px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => paginate(idx + 1)}
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            <th>Sl. No.</th>
+            <th onClick={() => handleSort("title")} style={{ cursor: "pointer" }}>
+              Title {sortField === "title" && (sortOrder === "asc" ? "▲" : "▼")}
+            </th>
+            <th onClick={() => handleSort("author")} style={{ cursor: "pointer" }}>
+              Author {sortField === "author" && (sortOrder === "asc" ? "▲" : "▼")}
+            </th>
+            <th onClick={() => handleSort("genre")} style={{ cursor: "pointer" }}>
+              Genre {sortField === "genre" && (sortOrder === "asc" ? "▲" : "▼")}
+            </th>
+            <th>Publication Date</th>
+            <th>ISBN</th>
+            <th onClick={() => handleSort("rating")} style={{ cursor: "pointer" }}>
+              Rating {sortField === "rating" && (sortOrder === "asc" ? "▲" : "▼")}
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentBooks.map((book, index) => (
+            <tr key={book.id}>
+              <td>{indexOfFirst + index + 1}</td>
+              <td
+                onClick={() => navigate("/BookDetails", { state: { book } })}
+                style={{ cursor: "pointer", color: "blue" }}
+              >
+                {book.title}
+              </td>
+              <td>{book.author}</td>
+              <td>{book.genre}</td>
+              <td>{book.publicationDate}</td>
+              <td>{book.isbn}</td>
+              <td>{book.rating}</td>
+              <td>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(book.id)}
                 >
-                  {idx + 1}
-                </button>
-              ))}
-            </div>
-          )}
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
-          <div style={{ textAlign: "center", marginTop: "30px" }}>
-            <button
-              style={actionButtonStyle}
-              onClick={() => navigate("/AddBook", { state: { person } })}
-            >
-              Add Book
-            </button>
-            <button
-              style={logoutButtonStyle}
-              onClick={() => navigate("/LoginPage")}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+      <Pagination className="justify-content-center mt-3">
+        {[...Array(totalPages).keys()].map((page) => (
+          <Pagination.Item
+            key={page + 1}
+            active={page + 1 === currentPage}
+            onClick={() => setCurrentPage(page + 1)}
+          >
+            {page + 1}
+          </Pagination.Item>
+        ))}
+      </Pagination>
+    </Container>
   );
 };
 
-// Styles...
-const tableStyle = { width: "100%", borderCollapse: "collapse", marginTop: "20px", border: "1px solid #ddd", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" };
-const headerStyle = { padding: "12px", textAlign: "left", backgroundColor: "#2980b9", color: "white", fontSize: "1rem", cursor: "pointer" };
-const tableRowStyle = { backgroundColor: "#fff", borderBottom: "1px solid #ddd" };
-const tableCellStyle = { padding: "12px", fontSize: "1rem", textAlign: "left" };
-const deleteButtonStyle = { padding: "6px 10px", backgroundColor: "#e74c3c", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" };
-const actionButtonStyle = { padding: "12px 20px", marginRight: "10px", backgroundColor: "#2ecc71", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontSize: "1rem" };
-const logoutButtonStyle = { padding: "12px 20px", backgroundColor: "#e74c3c", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontSize: "1rem" };
-const buttonStyle = { padding: "12px 20px", backgroundColor: "#3498db", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontSize: "1rem" };
+export default WebPage;
 
-export default Webpage;
+
 

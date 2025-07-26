@@ -34,7 +34,7 @@ function HomePage() {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  onClick={() => navigate("/LoginPage")}
+                  onClick={() => navigate("/WebPage")}
                   style={{ cursor: "pointer" }}
                 >
                   Login
@@ -43,7 +43,7 @@ function HomePage() {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  onClick={() => navigate("/RegisterPage")}
+                  onClick={() => navigate("/WebPage")}
                   style={{ cursor: "pointer" }}
                 >
                   Register
@@ -92,7 +92,7 @@ function HomePage() {
             </p>
             <button
               className="btn btn-outline-light mt-3"
-              onClick={() => navigate("/RegisterPage")}
+              onClick={() => navigate("/WebPage")}
             >
               Get Started
             </button>
@@ -171,13 +171,13 @@ function HomePage() {
           </p>
           <button
             className="btn btn-outline-light mt-3"
-            onClick={() => navigate("/RegisterPage")}
+            onClick={() => navigate("/WebPage")}
           >
             Register Now
           </button>
           <button
             className="btn btn-outline-light mt-3 ms-2"
-            onClick={() => navigate("/LoginPage")}
+            onClick={() => navigate("/WebPage")}
           >
             Member Login
           </button>
