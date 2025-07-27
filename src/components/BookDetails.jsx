@@ -66,9 +66,10 @@ const BookDetails = () => {
         ? `isbn=${selectedBook.isbn}`
         : `title=${encodeURIComponent(selectedBook.title)}`;
 
-      axios.get(`http://localhost:8080/api/books/google?${queryParam}`)
+     // axios.get(`http://localhost:8080/api/books/google?${queryParam}`)
+     axios.get(`http://library-managementbe.onrender.com/api/books/google?${queryParam}`)
   .then((response) => {
-    const data = response.data; // ✅ No need for JSON.parse
+    const data = response.data; 
 
     if (data.items?.length > 0) {
       setGoogleBook(data.items[0].volumeInfo);

@@ -10,12 +10,13 @@ const WebPage = () => {
   const [sortField, setSortField] = useState(""); // no sort initially
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 10;
+  const booksPerPage = 10;//for pagination
   const navigate = useNavigate();
 
   const fetchBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/books");
+      //const res = await axios.get("http://localhost:8080/api/books");
+      const res = await axios.get("http://library-managementbe.onrender.com/api/books");
       setBooks(res.data);
     } catch (err) {
       console.error("Error fetching books:", err);
@@ -28,7 +29,8 @@ const WebPage = () => {
 
   const handleDelete = async (id) => {
   try {
-    await axios.delete(`http://localhost:8080/api/books/${id}`);
+   // await axios.delete(`http://localhost:8080/api/books/${id}`);
+   await axios.delete(`http://library-managementbe.onrender.com/api/books/${id}`);
     const updatedBooks = books.filter((book) => book.id !== id);
     setBooks(updatedBooks);
 
