@@ -15,8 +15,8 @@ const WebPage = () => {
 
   const fetchBooks = async () => {
     try {
-      //const res = await axios.get("http://localhost:8080/api/books");
-      const res = await axios.get("https://library-managementbe.onrender.com/api/books");
+      const res = await axios.get("http://localhost:8080/api/books");
+     // const res = await axios.get("https://library-managementbe.onrender.com/api/books");
       setBooks(res.data);
     } catch (err) {
       console.error("Error fetching books:", err);
@@ -29,8 +29,8 @@ const WebPage = () => {
 
   const handleDelete = async (id) => {
   try {
-   // await axios.delete(`http://localhost:8080/api/books/${id}`);
-   await axios.delete(`https://library-managementbe.onrender.com/api/books/${id}`);
+    await axios.delete(`http://localhost:8080/api/books/${id}`);
+   //await axios.delete(`https://library-managementbe.onrender.com/api/books/${id}`);
     const updatedBooks = books.filter((book) => book.id !== id);
     setBooks(updatedBooks);
 
