@@ -67,7 +67,7 @@ const BookDetails = () => {
         : `title=${encodeURIComponent(selectedBook.title)}`;
 
      // axios.get(`http://localhost:8080/api/books/google?${queryParam}`)
-     axios.get(`http://library-managementbe.onrender.com/api/books/google?${queryParam}`)
+     axios.get(`https://library-managementbe.onrender.com/api/books/google?${queryParam}`)
   .then((response) => {
     const data = response.data; 
 
