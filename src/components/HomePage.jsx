@@ -40,15 +40,7 @@ function HomePage() {
                   Login
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  onClick={() => navigate("/WebPage")}
-                  style={{ cursor: "pointer" }}
-                >
-                  Register
-                </a>
-              </li>
+             
             </ul>
           </div>
         </div>
@@ -162,14 +154,9 @@ function HomePage() {
         <div className="container text-center">
           <h2 className="mb-3">Contact Us</h2>
           <p>
-             ☎️ +91-9846706315 | 📧 support@libraryms.com
+             ☎️ +91-9846706315 | 📧 vishnudethan29@gmail.com
           </p>
-          <button
-            className="btn btn-outline-light mt-3"
-            onClick={() => navigate("/WebPage")}
-          >
-            Register Now
-          </button>
+          
           <button
             className="btn btn-outline-light mt-3 ms-2"
             onClick={() => navigate("/WebPage")}
