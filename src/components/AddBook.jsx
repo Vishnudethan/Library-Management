@@ -48,8 +48,7 @@ function AddBook() {
     }
 
     try {
-      //await axios.post("http://localhost:8080/api/books", newBook);
-      await axios.post("https://library-managementbe.onrender.com/api/books", newBook);
+      await axios.post("http://localhost:8080/api/books", newBook);
       setMessage({ text: "✅ Book added successfully!", color: "green" });
       setNewBook({ title: "", author: "", publicationDate: "", isbn: "", genre: "", rating: "" });
     } catch (err) {
@@ -72,33 +71,19 @@ return (
       <form onSubmit={handleSubmit}>
         <div style={inputGroupStyle}>
           <label>Title:</label>
-          <input name="title" 
-          value={newBook.title} 
-          onChange={handleChange} 
-          style={inputStyle} 
-          required />
+          <input name="title" value={newBook.title} onChange={handleChange} style={inputStyle} required />
         </div>
         <div style={inputGroupStyle}>
           <label>Author:</label>
-          <input name="author"
-           value={newBook.author}
-            onChange={handleChange}
-             style={inputStyle} required />
+          <input name="author" value={newBook.author} onChange={handleChange} style={inputStyle} required />
         </div>
         <div style={inputGroupStyle}>
           <label>Publication Date:</label>
-          <input type="date"
-           name="publicationDate" 
-           value={newBook.publicationDate}
-            onChange={handleChange}
-             style={inputStyle} required />
+          <input type="date" name="publicationDate" value={newBook.publicationDate} onChange={handleChange} style={inputStyle} required />
         </div>
         <div style={inputGroupStyle}>
           <label>ISBN:</label>
-          <input name="isbn"
-           value={newBook.isbn} 
-           onChange={handleChange}
-            style={inputStyle} required />
+          <input name="isbn" value={newBook.isbn} onChange={handleChange} style={inputStyle} required />
         </div>
         <div style={inputGroupStyle}>
           <label>Genre:</label>
@@ -115,11 +100,7 @@ return (
         </div>
         <div style={inputGroupStyle}>
           <label>Rating (1-5):</label>
-          <input type="number"
-           name="rating" 
-           value={newBook.rating} 
-           onChange={handleChange}
-            style={inputStyle} required />
+          <input type="number" name="rating" value={newBook.rating} onChange={handleChange} style={inputStyle} required />
         </div>
 
         {message && (
