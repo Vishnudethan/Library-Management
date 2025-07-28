@@ -48,7 +48,8 @@ function AddBook() {
     }
 
     try {
-      await axios.post("http://localhost:8080/api/books", newBook);
+      //await axios.post("http://localhost:8080/api/books", newBook);
+      await axios.post("https://library-management-jf5a.onrender.com/api/books", newBook);
       setMessage({ text: "✅ Book added successfully!", color: "green" });
       setNewBook({ title: "", author: "", publicationDate: "", isbn: "", genre: "", rating: "" });
     } catch (err) {
