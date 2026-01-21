@@ -84,7 +84,7 @@ return (
         </div>
         <div style={inputGroupStyle}>
           <label>ISBN:</label>
-          <input name="isbn" value={newBook.isbn} onChange={handleChange} style={inputStyle} required />
+          <input name="isbn" value={newBook.isbn} onChange={handleChange} style={inputStyle}    maxLength={13} required />
         </div>
         <div style={inputGroupStyle}>
           <label>Genre:</label>
